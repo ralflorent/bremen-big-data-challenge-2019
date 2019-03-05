@@ -84,12 +84,6 @@ celerybeat-schedule
 # Environments
 .env
 .venv
-
-# Data files 
-data/
-Data/
-DATA/
-.data/
 env/
 venv/
 ENV/
@@ -108,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Data files 
+notebooks/assets/data/
+notebooks/assets/Data/
+notebooks/assets/DATA/
+notebooks/assets/.data/
