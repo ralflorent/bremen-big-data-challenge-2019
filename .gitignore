@@ -84,6 +84,12 @@ celerybeat-schedule
 # Environments
 .env
 .venv
+
+# Data files 
+data/
+Data/
+DATA/
+.data/
 env/
 venv/
 ENV/
