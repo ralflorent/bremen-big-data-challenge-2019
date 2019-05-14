@@ -13,23 +13,21 @@
 %
 % Main entry for the documentation
 
+% ==============================================================================
+% START: Preamble
+% ==============================================================================
+\documentclass{article}
 
-% Preprocessing
-\documentclass[12pt,a4paper]{article}
-
-\usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{classicthesis}
-\usepackage[utf8]{inputenc}
-\usepackage[inner=3cm,outer=3cm,top=3.0cm,bottom=3.0cm]{geometry}
 \usepackage[british,UKenglish,USenglish]{babel}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{xcolor}
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
-\addbibresource{references.bib}
+\usepackage{graphicx}
+\usepackage[inner=3cm,outer=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{subcaption}
 
+\addbibresource{references.bib}
 \graphicspath{{images/}}
 
 \title{
@@ -45,8 +43,13 @@
 \date{May 17, 2019}
 
 \vspace{1.4cm}
+% ==============================================================================
+% END: Preamble
+% ==============================================================================
 
+% ==============================================================================
 % START: Scripts
+% ==============================================================================
 \begin{document}
 \maketitle
 
@@ -63,4 +66,6 @@
 \printbibliography
 
 \end{document}
-% END: Scripts
+% ==============================================================================
+% END: Preamble
+% ==============================================================================
