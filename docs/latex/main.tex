@@ -24,11 +24,16 @@
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \usepackage{graphicx}
 \usepackage[inner=3cm,outer=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage{subcaption}
 
-\addbibresource{references.bib}
-\graphicspath{{images/}}
+% Override hyper reference default configurations
+\hypersetup{colorlinks=true,linkcolor=blue,filecolor=magenta,urlcolor=cyan}
+\urlstyle{same}
+
+\addbibresource{references.bib} % Input references by file
+\graphicspath{{images/}} % Set path for image preloading
 
 \title{
     {\includegraphics[scale=0.15]{logo-black.png}} \\
@@ -53,12 +58,15 @@
 \begin{document}
 \maketitle
 
-% Abstract block
+% Abstract
 \input{sections/abstract}
 \newpage
 
 % Introduction
 \input{sections/intro}
+
+% Contents
+\input{sections/contents}
 
 % References
 \clearpage
