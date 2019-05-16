@@ -152,39 +152,28 @@ classification result of a specific movement. It is important that the spelling 
 case) of the textual labels matches exactly the spelling of the labels in the training data.
 
 As mentioned above, the datafiles are references to other CSV files. For example, the path file
-\path{Subject02 / Subject02_Aufnahme000.csv} is a CSV file itself within a folder named \emph{Subject02}
+\path{Subject02 / Subject02_Aufnahme000.csv} is a CSV file within a folder named \emph{Subject02}
 located in the root path (i.e., the current directory of the downloaded zip files). The CSV file itself
-is dataset with a proper format. Basically, the file has a set of comma-separated numbered-values
-that looks like this: \textit{32688,32224,32991,32609,32790,33048,37168,34610,27374,29068,29264,
-28408,31784,28133,29295,29244,33216,37140,34736}.
+is a dataset with a proper format. Basically, the file has a set of comma-separated numbered-values
+that looks like this: \textit{32688, 32224, 32991, 32609,32790,33048, 37168, 34610, 27374, 29068, 29264,
+28408, 31784, 28133, 29295, 29244, 33216, 37140, 34736}.
 
-Each line represents the sensor values measured at one time (sampled at 1000 Hz). The columns
-represent the individual wearable sensors recording the human activities (see Figure \ref{fig:sensor-placement}):
+Each line has 19 values (numbers) and represents the sensor values measured at one time (sampled at
+1000 Hz). In other words, the columns represent the individual wearable sensors recording the human
+activities (see Figure \ref{fig:sensor-placement}):
 
-\begin{enumerate}
-    \item EMG1
-    \item EMG2
-    \item EMG3
-    \item EMG4
-    \item Airborne
-    \item ACC upper X
-    \item ACC upper Y
-    \item ACC upper Z
-    \item Goniometer X
-    \item ACC lower X
-    \item ACC lower Y
-    \item ACC lower Z
-    \item Goniometer Y
-    \item Gyro upper X
-    \item Gyro upper Y
-    \item Gyro upper Z
-    \item Gyro lower X
-    \item Gyro lower Y
-    \item Gyro lower Z
-\end{enumerate}
+\begin{center}
+    \begin{tabular}{ c c c c c }
+     EMG1 & Airborne    & Goniometer X & Goniometer Y & Gyro lower X \\
+     EMG2 & ACC upper X & ACC lower X  & Gyro upper X & Gyro lower Y \\
+     EMG3 & ACC upper Y & ACC lower Y  & Gyro upper Y & Gyro lower Z \\
+     EMG4 & ACC upper Z & ACC lower Z  & Gyro upper Z &
+    \end{tabular}
+\end{center}
+
 
 % source is needed
-The size of the CSV datafiles vary inappropriately. That is, in most cases, due to inaccurate measurements,
+The size of the CSV datafiles varies inappropriately. That is, in most cases, due to inaccurate measurements,
 random initialization states, mechanical flaws, computational and processing cost, and so on.
 
 
@@ -193,7 +182,7 @@ random initialization states, mechanical flaws, computational and processing cos
 \subsection{Notation}
 Let us defined a modeling procedure as  a function $\mathcal{P}(\Theta): \mathbb{R}^{m} \longrightarrow \mathbb{R}^{k}$ where $m$ is the number of features, $k$ is the number of classes, and $\Theta : \{ Feature_{extration}, Statistical_{Tecnique} \}$ is a set representing parameters. Giving this abstraction $\Theta$ modifies the structure  $\mathcal{P}$ but always takes a \textit{feature vector} $X \in  \mathbb{R}^{m}$, and returns a \textit{Probability vector} $Y \in  \mathbb{R}^{k}$ where each component $\in  [0,1]$.\\
 
-It is clear that the $\mathcal{P}(\Theta)$ that represents exactly the reality regarding athletics movements is unknown to us, which let us to defined a measure of the amount of veracity that a giving $\mathcal{P}$ has compare to reality. 
+It is clear that the $\mathcal{P}(\Theta)$ that represents exactly the reality regarding athletics movements is unknown to us, which let us to defined a measure of the amount of veracity that a giving $\mathcal{P}$ has compare to reality.
 
 \begin{equation}
 accuracy=  \frac{\sum Correct_{classification}}{N}
