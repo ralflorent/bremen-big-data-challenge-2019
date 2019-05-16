@@ -1,0 +1,79 @@
+% Bremen Big Data Challenge - Edition 2019
+%
+% Data Analysis Competition
+%
+% Team `gentleman`
+%
+% Created on March 10, 2019
+%
+% Authors:
+%   Gari Ciodaro <g.ciodaroguerra@jacobs-university.de>
+%   Diogo Cosin <d.ayresdeoliveira@jacobs-university.de>
+%   Ralph Florent <r.florent@jacobs-university.de>
+%
+% Main entry for the documentation
+
+% ==============================================================================
+% START: Preamble
+% ==============================================================================
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[british,UKenglish,USenglish]{babel}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage{graphicx}
+\usepackage[inner=3cm,outer=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{subcaption}
+\usepackage{url}
+% Override hyper reference default configurations
+\hypersetup{colorlinks=true,linkcolor=blue,filecolor=magenta,urlcolor=cyan}
+\urlstyle{same}
+
+\addbibresource{references.bib} % Input references by file
+\graphicspath{{images/}} % Set path for image preloading
+
+\title{
+    {\includegraphics[scale=0.15]{logo-black.png}} \\
+    \vspace{1.4cm}
+    {\large \textbf{DATA MINING}} \\
+    {\large \textbf{Project Report}} \\
+    {\large Bremen Big Data Challenge - Edition 2019}
+}
+
+\vspace{1.4cm}
+\author{ \textit{By Gari Ciodaro, Diogo Cosin, and Ralph Florent}}
+\date{May 17, 2019}
+
+\vspace{1.4cm}
+% ==============================================================================
+% END: Preamble
+% ==============================================================================
+
+% ==============================================================================
+% START: Scripts
+% ==============================================================================
+\begin{document}
+\maketitle
+
+% Abstract
+\input{sections/abstract}
+\newpage
+
+% Introduction
+\input{sections/intro}
+
+% Contents
+\input{sections/contents}
+
+% References
+\clearpage
+\newpage
+\printbibliography
+
+\end{document}
+% ==============================================================================
+% END: Preamble
+% ==============================================================================
