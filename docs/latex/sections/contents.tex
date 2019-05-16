@@ -194,12 +194,33 @@ accuracy=  \frac{\sum Correct_{classification}}{N}
 
 \subsection{Curse of dimensionality}
 
-\textit{Guys please explain this also. rembember to say the 10 feature rule thumbs and cited jaeger lectures notes.}
+\textit{Guys please explain this also. remember to say the 10 feature rule thumbs and cited jaeger lectures notes.}
 
 
 \section{Data Preprocessing}
 
-Two prepr
+Two \textit{feature extractions} procedures were implemented.
+
+\textbf{Preprocessing procedure 1}:
+\begin{enumerate}
+	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
+	\item Transpose each $S_{data}$ into a row vector, concatenating them into one single vector $S_{concat} \in  \mathbb{R}^{1 \times 19*N_{fr} }$ 
+	\item Repeat step 1 and 2 for every subject file.
+	\item Create a dataset with the rows of step 3 with it according it corresponding label (extracted from the name of the file). This data set is a matrix $D$ of dimensions $[6401 \times (19*N_{fr})]$. For $N_{fr}=56810$ $D$ is $[6401 \times 1079390+1]$.
+\end{enumerate}
+
+\textbf{Preprocessing procedure 2}:
+\begin{enumerate}
+	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
+	\item For each $S_{data}$ decomposed as $s_{data}=\mu+\omega$ where $\mu$ is a smoothed version of $s_{data}$ calculated using lowess with tree points average weighted linear regression. A complete derivation of this algorithm can be found in \cite{1}. Having $s_{data}$ and $\mu$ calculate $\omega =s_{data}-\mu$. 
+	\item Create a vector $\mu_{sta} \in \mathbb{R}^{3}$ with first tree statistical moments of $\mu$, that is, the average, the variance, and the steepness. 
+	\item calculate the discrete Fourier transformation of $\omega$, extract the first five coefficients and put them in a vector $\omega_{fft} \in \mathbb{R}^{5}$. A complete derivation of this algorithms can be found in \cite{2}.
+	\item take $\mu_{sta}$ and concatenate it with $\omega_{fft}$ into a row vector $S_{data} \in \mathbb{R}^{1 \times (3+5) }$
+	\item Repeat steps 1 to 5 for every \textbf{subject file} and stack the vectors $S_{data}$ with its corresponding label.
+	\item This dataset $D$ is $[6401 \times 8+1]$
+\end{enumerate}
+
+ For procedure 1 the parameter $N_{fr}$ had to be set, since each \textbf{subject file} had different number records. By observing a 100 random sample of files, we concluded rather arbitrarily that  $N_{fr}=56810$  was reasonable number of records. In case a particular file did not meet this requirement, the signal per sensor would repeat itself until the desired $N_{fr}$ was reached. The idea with procedure 2 was to capture the general properties of the movements(using $\mu_{sta}$) in term of properties of the distribution of the signal. On the other hand, we also attempted to capture information about the periodicity of the movement using $\omega_{fft}$. 
 
 
 \section{Data Exploitation}
@@ -209,6 +230,17 @@ Two prepr
 \section{Results and Discussions}
 
 \section{Conclusion}
+
+
+
+\begin{thebibliography}{1}
+\bibitem{1} 
+Cleveland, W.S. (1979) “Robust Locally Weighted Regression and Smoothing Scatterplots”. Journal of the American Statistical Association 74 (368): 829-836.
+
+\bibitem{2} 
+Oraintara, S., Chen, Y. J., \& Nguyen, T. Q. (2002). Integer fast Fourier transform. IEEE Transactions on Signal Processing, 50(3), 607-618.
+
+\end{thebibliography}
 
 % ==============================================================================
 % START: Methods, Results, Discussions, Conclusion
