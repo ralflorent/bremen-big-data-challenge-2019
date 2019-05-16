@@ -179,8 +179,8 @@ random initialization states, mechanical flaws, computational and processing cos
 
 \section{General comments}
 
-\subsection{Notation} \label{notation}
-Let us defined a modeling procedure as  a function $\mathcal{P}(\Theta): \mathbb{R}^{m} \longrightarrow \mathbb{R}^{k}$ where $m$ is the number of features, $k$ is the number of classes, and $\Theta : \{ Feature_{extration}, Statistical_{Tecnique} \}$ is a set representing parameters. Giving this abstraction $\Theta$ modifies the structure  $\mathcal{P}$ but always takes a \textit{feature vector} $X \in  \mathbb{R}^{m}$, and returns a \textit{Probability vector} $Y \in  \mathbb{R}^{k}$ where each component $\in  [0,1]$.\\
+\subsection{Notation}
+Let us defined a modeling procedure as  a function $\mathcal{P}(\Theta): \mathbb{R}^{m} \longrightarrow \mathbb{R}^{k}$ where $m$ is the number of features, $k$ is the number of classes, and $\Theta : \{Preprocessing_{method}, Feature_{extration}, Statistical_{Tecnique} \}$ is a set representing parameters. Giving this abstraction $\Theta$ modifies the structure  $\mathcal{P}$ but always takes a \textit{feature vector} $X \in  \mathbb{R}^{m}$, and returns a \textit{Probability vector} $Y \in  \mathbb{R}^{k}$ where each component $\in  [0,1]$.\\
 
 It is clear that the $\mathcal{P}(\Theta)$ that represents exactly the reality regarding athletics movements is unknown to us, which let us to defined a measure of the amount of veracity that a giving $\mathcal{P}$ has compare to reality.
 
@@ -213,9 +213,9 @@ set is artificially split into two subsets, the "training" and "testing" dataset
 
 \section{Data Preprocessing}
 
-Two \textit{feature extractions} procedures were implemented.
+Two \textit{Preprocessing methods} procedures were implemented.
 
-\textbf{Preprocessing procedure 1}:
+\textbf{Preprocessing method 1}:
 \begin{enumerate}
 	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
 	\item Transpose each $S_{data}$ into a row vector, concatenating them into one single vector $S_{concat} \in  \mathbb{R}^{1 \times 19*N_{fr} }$ 
@@ -223,25 +223,196 @@ Two \textit{feature extractions} procedures were implemented.
 	\item Create a dataset with the rows of step 3 with it according it corresponding label (extracted from the name of the file). This data set is a matrix $D$ of dimensions $[6401 \times (19*N_{fr})]$. For $N_{fr}=56810$ $D$ is $[6401 \times 1079390+1]$.
 \end{enumerate}
 
-\textbf{Preprocessing procedure 2}:
+\textbf{Preprocessing method 2}:
 \begin{enumerate}
 	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
-	\item For each $S_{data}$ decomposed as $s_{data}=\mu+\omega$ where $\mu$ is a smoothed version of $s_{data}$ calculated using lowess with tree points average weighted linear regression. A complete derivation of this algorithm can be found in \cite{1}. Having $s_{data}$ and $\mu$ calculate $\omega =s_{data}-\mu$. 
-	\item Create a vector $\mu_{sta} \in \mathbb{R}^{3}$ with first tree statistical moments of $\mu$, that is, the average, the variance, and the steepness. 
-	\item calculate the discrete Fourier transformation of $\omega$, extract the first five coefficients and put them in a vector $\omega_{fft} \in \mathbb{R}^{5}$. A complete derivation of this algorithms can be found in \cite{2}.
-	\item take $\mu_{sta}$ and concatenate it with $\omega_{fft}$ into a row vector $S_{data} \in \mathbb{R}^{1 \times (3+5) }$
-	\item Repeat steps 1 to 5 for every \textbf{subject file} and stack the vectors $S_{data}$ with its corresponding label.
-	\item This dataset $D$ is $[6401 \times 8+1]$
+	\item For each $S_{data}$ decomposed it as $s_{data}=\mu+\omega$ where $\mu$ is a smoothed version of $s_{data}$ calculated using lowess with tree points average weighted linear regression. A complete derivation of this algorithm can be found in \cite{1}. Having $s_{data}$ and $\mu$ calculate $\omega =s_{data}-\mu$. Create a vector $\mu_{sta} \in \mathbb{R}^{3}$ with first tree statistical moments of $\mu$, that is, the average, the variance, and the steepness. calculate the discrete Fourier transformation of $\omega$, extract the first five coefficients and put them in a vector $\omega_{fft} \in \mathbb{R}^{5}$. A complete derivation of this algorithms can be found in \cite{2}.
+	take $\mu_{sta}$ and concatenate it with $\omega_{fft}$ into a row vector $S \in \mathbb{R}^{8}$
+	\item concatenate each $S$ into a single vector $S_{row} \in \mathbb{R}^{8*19}$
+	\item Repeat steps 1 to 3 for every \textbf{subject file} and stack the vectors $S$ with its corresponding label into a matrix $D$ is $[6401 \times 8*19]$.
 \end{enumerate}
 
- For procedure 1 the parameter $N_{fr}$ had to be set, since each \textbf{subject file} had different number records. By observing a 100 random sample of files, we concluded rather arbitrarily that  $N_{fr}=56810$  was reasonable number of records. In case a particular file did not meet this requirement, the signal per sensor would repeat itself until the desired $N_{fr}$ was reached. The idea with procedure 2 was to capture the general properties of the movements(using $\mu_{sta}$) in term of properties of the distribution of the signal. On the other hand, we also attempted to capture information about the periodicity of the movement using $\omega_{fft}$. 
+ For $Preprocessing_{ \ method \ 1}$ the parameter $N_{fr}$ had to be set, since each \textbf{subject file} had different number records. By observing a 100 random sample of files, we concluded rather arbitrarily that  $N_{fr}=56810$  was reasonable number of records. In case a particular file did not meet this requirement, the signal per sensor would repeat itself until the desired $N_{fr}$ was reached. The idea with $Preprocessing_{ \ method \ 2}$ was to capture the general properties of the movement(using $\mu_{sta}$) in terms of its statistical moments. On the other hand, we also attempted to capture information about the periodicity of the movement using $\omega_{fft}$. 
 
 
 \section{Data Exploitation}
 
+Depending on the $Preprocessing_{method}$ some $Feature_{extration}$ and $Statistical_{Tecnique}$ combination would more adequate to implement than other. Here we only present highest \textit{accuracy} combinations. 
+
+\subsection{Data Exploitation with $Preprocessing_{ \ method \ 1}$}
+
+One problem that is immediately observed with $Preprocessing_{ \ method \ 1}$ is the immense dimensionality of the sample space, therefore trying to find a $Statistical_{Tecnique}$  capable of learning an adequate decision function is basically impossible. To bypass this problem implemented a $Feature_{extration}$ and $Statistical_{Tecnique}$ shown in the Figure \ref{dig:p1}.
+
+
+\begin{figure}[htpb!]
+	\centering 
+	\includegraphics[width=0.7\textwidth]{images/scheme_1.pdf}
+	\caption{$\mathcal{P}(\Theta_{1})$  Scheme} 
+	\label{dig:p1} 
+\end{figure}
+
+We theorized that the importance of features in matrix $D$ measured by its variance will strongly depend on the particular movement involved, acknowledging this we filtered matrix $D$ by class, and applied principal component analysis $PCA_{|class}: \mathbb{R}^{1079390} \longrightarrow \mathbb{R}^{275}$ to extract the first 275 principal components(this transformation will be the beginning a branch in Figure \ref{dig:p1}) that accounts to 90 $\%$ of the variance. Note that the first level in \ref{dig:p1} has 22 $PCA_{|class}$ extractors. For training, matrix $D$ is passed without filtering per label to each $PCA_{|class}$ and then feed to a \textit{Binary logistic regression} $LogR_{|class}: \mathbb{R}^{275} \longrightarrow [0,1]$ where the classes are encoded in \textit{one vs all} manner. Each of the $LogR_{|class}$ will output a degree of believe that a particular $X$ belows to a class $k$. Finally concatenating the degree of believe predicted by each $LogR_{|class}$ we construct a $X' \in \mathbb{R}^{22}$. Finally $X'$ is passed to a single feed forward neuronal network $NN: \mathbb{R}^{22} \longrightarrow  \mathbb{R}^{22} $ that predicts our final probability vector $Y$ in a \textit{hot encoded} structure, we take the maximum component and assign its corresponding label to that register.
+
+
+\begin{equation}
+\Theta_{1}:= \{ Preprocessing_{ \ method \ 1},PCA_{|class},LogR_{|class},NN \}
+\label{eq:1}
+\end{equation}
+
+
+\subsection{Data Exploitation with $Preprocessing_{ \ method \ 2}$}
+The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no further dimension reduction is required. We implemented a variety of feed forward neuron networks using tensor flow, where we varied the Network architecture composed by the number of hidden units $H_{units} \in \mathbb{N}^{>0}$ per hidden layer $H_{L} \in \mathbb{N}^{>0}$ the regularization parameter $\alpha \in \mathbb{R}^{>0}$, and the activation functions, namely $ \{  Logistic, tanh, relu \}$. From Figures \ref{sm1} to  \ref{sm22} we can observe $\mu$ signal examples per label.
+
+\begin{equation}
+\Theta_{2}:= \{ Preprocessing_{ \ method \ 2},NN \}
+\label{eq:2}
+\end{equation}
+
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/curve-left-spin-Lfirst_example.pdf}
+		\caption{curve-left-spin-Lfirst}
+		\label{sm1}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/curve-left-spin-Rfirst_example.pdf}
+		\caption{curve-left-spin-Rfirst}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/curve-left-step_example.pdf}
+		\caption{curve-left-step}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/curve-right-spin-Lfirst_example.pdf}
+		\caption{curRight-spin-Lfirst}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/curve-right-spin-Rfirst_example.pdf}
+		\caption{curRight-spin-Rfirst}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/curve-right-step_example.pdf}
+		\caption{curRight-step}
+	\end{minipage}
+\end{figure}
+
+
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/jump-one-leg_example.pdf}
+		\caption{jump-one-leg}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/jump-two-leg_example.pdf}
+		\caption{jump-two-leg}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/lateral-shuffle-left_example.pdf}
+		\caption{lateral-shuffle-left}
+	\end{minipage}
+\end{figure}
+
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/lateral-shuffle-right_example.pdf}
+		\caption{lateral-shuffle-right}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/lay_example.pdf}
+		\caption{lay}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/run_example.pdf}
+		\caption{run}
+	\end{minipage}
+\end{figure}
+
+
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/sit_example.pdf}
+		\caption{sit}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/sit-to-stand_example.pdf}
+		\caption{sit-to-stand}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/stair-down_example.pdf}
+		\caption{stair-down}
+	\end{minipage}
+\end{figure}
+
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/stair-up_example.pdf}
+		\caption{stair-up}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/stand_example.pdf}
+		\caption{stand}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/stand-to-sit_example.pdf}
+		\caption{stand-to-sit}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/v-cut-left-Lfirst_example.pdf}
+		\caption{v-cut-left-Lfirst}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/v-cut-left-Rfirst_example.pdf}
+		\caption{v-cut-left-Rfirst}
+	\end{minipage}
+	\begin{minipage}[b]{0.31\textwidth}
+		\includegraphics[width=\textwidth]{images/v-cut-right-Lfirst_example.pdf}
+		\caption{v-cut-right-Lfirst}
+	\end{minipage}
+\end{figure}
+
+
+\begin{figure}[!tbp]
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/v-cut-right-Rfirst_example.pdf}
+		\caption{v-cut-right-Rfirst}
+	\end{minipage}
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/walk_example.pdf}
+		\caption{walk}
+		\label{sm22}
+	\end{minipage}
+\end{figure}
+
+
+
 \section{Data Analysis}
 
+
+\textit{Ralph i think it would be good if you explain here what you do when you implemented the "fully connected neuron network, like explain the parameters optimization and so on". that implementation will account for the neuron network at the end of the diagram in figure \ref{dig:p1}, report here also the score you got.}
+By submitting both approaches to the challenge we observed that $\mathcal{P} (\Theta_{2})$ outperformed  $\mathcal{P}(\Theta_{1})$ so for this and the following sections we will focus our attention on  $\mathcal{P} (\Theta_{1})$
+
 \section{Results and Discussions}
+
+
+
+
+\begin{figure}[htpb!]
+	\centering 
+	\includegraphics[width=\textwidth]{images/conf_ma.png}
+	\caption{$\mathcal{P}(\Theta_{2})$  Confusion matrix on test data} 
+	\label{fig:confusion} 
+\end{figure}
 
 \section{Conclusion}
 
