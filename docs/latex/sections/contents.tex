@@ -187,7 +187,31 @@ represent the individual wearable sensors recording the human activities (see Fi
 The size of the CSV datafiles vary inappropriately. That is, in most cases, due to inaccurate measurements,
 random initialization states, mechanical flaws, computational and processing cost, and so on.
 
+
+\section{General comments}
+
+\subsection{Notation}
+Let us defined a modeling procedure as  a function $\mathcal{P}(\Theta): \mathbb{R}^{m} \longrightarrow \mathbb{R}^{k}$ where $m$ is the number of features, $k$ is the number of classes, and $\Theta : \{ Feature_{extration}, Statistical_{Tecnique} \}$ is a set representing parameters. Giving this abstraction $\Theta$ modifies the structure  $\mathcal{P}$ but always takes a \textit{feature vector} $X \in  \mathbb{R}^{m}$, and returns a \textit{Probability vector} $Y \in  \mathbb{R}^{k}$ where each component $\in  [0,1]$.\\
+
+It is clear that the $\mathcal{P}(\Theta)$ that represents exactly the reality regarding athletics movements is unknown to us, which let us to defined a measure of the amount of veracity that a giving $\mathcal{P}$ has compare to reality. 
+
+\begin{equation}
+accuracy=  \frac{\sum Correct_{classification}}{N}
+\end{equation}
+
+\subsection{Cross validation}
+
+\textit{Guys please explain here what cv is, why is important to use, that is what is the shit with variance and bias, why overfit may occurs. In general terms. why is a good stimator of the test error over unseen data.}
+
+\subsection{Curse of dimensionality}
+
+\textit{Guys please explain this also. rembember to say the 10 feature rule thumbs and cited jaeger lectures notes.}
+
+
 \section{Data Preprocessing}
+
+Two prepr
+
 
 \section{Data Exploitation}
 
