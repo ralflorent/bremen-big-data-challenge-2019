@@ -365,6 +365,7 @@ The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no fu
 	\begin{minipage}[b]{0.31\textwidth}
 		\includegraphics[width=\textwidth]{images/sit_example.pdf}
 		\caption{sit}
+		\label{sit}
 	\end{minipage}
 	\begin{minipage}[b]{0.31\textwidth}
 		\includegraphics[width=\textwidth]{images/sit-to-stand_example.pdf}
@@ -385,6 +386,7 @@ The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no fu
 	\begin{minipage}[b]{0.31\textwidth}
 		\includegraphics[width=\textwidth]{images/stand_example.pdf}
 		\caption{stand}
+		\label{stand}
 	\end{minipage}
 	\begin{minipage}[b]{0.31\textwidth}
 		\includegraphics[width=\textwidth]{images/stand-to-sit_example.pdf}
@@ -424,6 +426,8 @@ The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no fu
 
 \section{Data Analysis}
 
+
+\subsection{Data Analysis with $\mathcal{P}(\Theta_{1})$}
 The last procedure to complete the full scheme in Figure \ref{dig:p1} is the implementation of the
 \emph{Fully-Connected Neural Network (FCNN)}. Applying this \emph{Deep Learning} approach on the preprocessed
 data serves as an alternate technique to optmize the loss function and increase accuracy.
@@ -467,21 +471,94 @@ Finally, the best parameters set found on the classifier development set are:
 with an improved accuracy of $84.44\%$. This leads to believe that there is a non-linear relationship
 between the feature vectors and the classified labels.
 
-By submitting both approaches to the challenge we observed that $\mathcal{P} (\Theta_{2})$ outperformed  $\mathcal{P}(\Theta_{1})$ so for this and the following sections we will focus our attention on  $\mathcal{P} (\Theta_{1})$
+\subsection{Data Analysis with $\mathcal{P}(\Theta_{2})$}
+
+Giving that the same $Stastistical_{Technique}$, namely \emph{Fully-Connected Neural Network (FCNN)} was used for  $\mathcal{P}(\Theta_{2})$ the prior section parameters definitions holds the same however, instead of using \emph{Scikit-Learn} we set up an environment where the \emph{FCNN} algorithm was implemented using \emph{keras} with \emph{Tensor-flow} back-end for \emph{gpu} usage.
+
+\subsubsection{experimental setup}
+Train a \emph{FCNN} with such high dimension dataset $D$ $[6401 \times 153]$ is computationally expensive(in fact this is the reason we were force to used \emph{keras}) so trying a \emph{cross-validation} plus  \emph{grid-search} as in   $\mathcal{P}(\Theta_{1})$ is not piratically possible. We used instead a simply $75\%$ and $25\%$ train-test split, and randomly tested different \emph{FCNN} architectures. We also min-max scale so that \emph{FCNN} was trained using features $\in [0,1]$ interval, for increasing the convergence time.
+
+
 
 \section{Results and Discussions}
 
+\subsection{Results and Discussions for  $\mathcal{P}(\Theta_{2})$}
 
-
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{||c c c c c c c||} 
+			\hline
+			$H_{L1}(H_{units},fun)$&$H_{L2}$&$H_{L2}$& $\alpha$ & $Train_{Score}$ & $Test_{Score}$  & $Challenge_{score}$  \\ [0.5ex] 
+			\hline
+			60,relu
+			&
+			87,tanh
+			&
+			23, sigmoid
+			&0.000001& $95\%$ & $91\%$ & $64\%$  \\ 
+			\hline
+		\end{tabular}
+		\caption{Resuts on $\mathcal{P}(\Theta_{2})$}
+		\label{table:p2_result}
+	\end{center}
+\end{table}
 
 \begin{figure}[htpb!]
 	\centering
 	\includegraphics[width=\textwidth]{images/conf_ma.png}
-	\caption{$\mathcal{P}(\Theta_{2})$  Confusion matrix on test data}
+	\caption{$\mathcal{P}(\Theta_{2})$  Confusion matrix on test data.}
 	\label{fig:confusion}
 \end{figure}
 
+
+From Figure \ref{fig:confusion} we can conclude that the most misclassification occurs with the classes \emph{stand} and \emph{sit} which intuitively are mechanically similar, this can be further confirmed by looking at the smoothen ($\mu$) plots \ref{sit} and \ref{stand}. We tried to modified the $Preprocessing_{ \ method \ 1}$ to include some manually crafted features that will indicate a clear different between \emph{stand} and \emph{sit}, they can be summarized as follows:
+
+
+\begin{itemize}
+	\item The first and second derivate of $\mu$, since we believed the direction of the movement had to be different.
+	\item The maximum value of the $\mu$, since sensor data related to distance from the floor must different for both classes.
+	\item increase to 5 five the number of statistical moments. 
+\end{itemize}
+
+Unfortunately none of them gave better results on the test data. The main reason being that this particular adjustment had to me made to all the features, this in term caused other features to get noise, as a result, the decrease in misclassification gained in the pair  \emph{stand}, \emph{sit} was undermined by the increase of misclassification on other features, particularly \emph{sit-to-stand} and \emph{stand-to-sit}.
+
+\subsection{Results and Discussions for  $\mathcal{P}(\Theta_{1})$}
+
+In Table \ref{table:p1_result} we can observe that the Challenge score is inferior to that reached on $\mathcal{P}(\Theta_{2})$, since this was the case, we focused our efforts of optimization on $\mathcal{P}(\Theta_{2})$.
+
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{||c c c c c c||} 
+			\hline
+			$H_{units}$ &Activation function & $\alpha$ & $CV_{train}$ & $CV_{test}$  & Challenge score \\ [0.5ex] 
+			\hline
+			20 & tanh &0.01& (??) & $84.44\%$& $54\%$  \\ 
+			\hline
+		\end{tabular}
+		\caption{Resuts on $\mathcal{P}(\Theta_{1})$}
+		\label{table:p1_result}
+	\end{center}
+\end{table}
+
+
+
 \section{Conclusion}
+
+\subsection{Conclusion for $\mathcal{P}(\Theta_{1})$}
+
+\begin{itemize}
+	\item In retrospective we realized that we introduced some \emph{data leakage} on this implementation, since while constructing $PCA_{|class}$ we feed the algorithms the whole dataset. This could be an explanation for the difference in performance on our $CV_{test}$ and challenge score.
+	\item In $Preprocessing_{ \ method \ 1}$  we arbitrarily choose the number of time steps to be 56810 per signal, we believed that this decision should be made with more empirical knowledge of the phenomena, to increase the performance of $\mathcal{P}(\Theta_{1})$.
+	\item We also implemented \emph{Boosting} with \emph{random forest} with $4\%$ increase in $CV_{test}$ however, the competition had already finished and we could not test the result on the challenge data. 
+\end{itemize}
+
+\subsection{Conclusion for $\mathcal{P}(\Theta_{2})$}
+
+\begin{itemize}
+	\item After the competition finished we realized that one reason for the difference in performance between our test and the challenge score might have been that the splitting of our data was done randomly, we believe that setting aside entire subjects would have been a better approach, after all, an individual should walk and run in a similar manner.
+	\item In other to increase the performance of $\mathcal{P}(\Theta_{2})$ we believe a window of sampling the signal $S_{data}$ should be implemented using expert knowledge on the subject. As a side note, we tried the latest by splitting $S_{data}$ into 3 sectors and then repeating $Preprocessing_{ \ method \ 2}$. unfortunately, this is very computational expensive, and the attempt, after days of running had to be stooped.
+	
+\end{itemize}
 
 
 
