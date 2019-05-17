@@ -75,7 +75,7 @@ the file are: \textit{Subject02}, \textit{ \path{Subject02 / Subject02_Aufnahme0
 \textit{stand-to-sit}. Table \ref{table:train-data} illustrates a lightweight version of the
 data partition of the training dataset file.
 
-\begin{table}
+\begin{table}[h!]
     \begin{center}
         \begin{tabular}{||c | c | c||}
             \hline % Table headers
@@ -100,12 +100,12 @@ data partition of the training dataset file.
 \end{table}
 
 Similarly, the testing dataset file (\textbf{\emph{challenge.csv}}) is formatted using the same structure
-with the exception of the \textit{Label} column, which is unknown and marked with an \emph{X}.
+except for the \textit{Label} column, which is unknown and marked with an \emph{X}.
 The datafile contains a total of 1739 lines counting both the feature names and feature values.
 Table \ref{table:test-data} displays a lightweight version of the data partition of the testing
 dataset file.
 
-\begin{table}
+\begin{table}[h!]
     \begin{center}
         \begin{tabular}{||c | c | c||}
             \hline % Table headers
@@ -145,11 +145,11 @@ to a recording of a movement. The columns have the following meanings:
     \item \textbf{\emph{Label}}: The movement that was recorded
 \end{itemize}
 
-Particularly, the \emph{Label} column of the testing dataset contains repeatedly the letter "\textit{X}"
+Notably, the \emph{Label} column of the testing dataset contains repeatedly the letter "\textit{X}"
 to indicate that this value is not present. That is, at the time of submitting solutions, the submission should
 exactly match the testing data, where each \emph{X} will be replaced by a label. This label corresponds to the
 classification result of a specific movement. It is important that the spelling (including upper / lower
-case) of the textual labels matches exactly the spelling of the labels in the training data.
+case) of the textual names matches precisely the spelling of the labels in the training data.
 
 As mentioned above, the datafiles are references to other CSV files. For example, the path file
 \path{Subject02 / Subject02_Aufnahme000.csv} is a CSV file within a folder named \emph{Subject02}
@@ -180,9 +180,9 @@ random initialization states, mechanical flaws, computational and processing cos
 \section{General Comments}
 
 \subsection{Notation} \label{notation}
-Let us defined a modeling procedure as  a function $\mathcal{P}(\Theta): \mathbb{R}^{m} \longrightarrow \mathbb{R}^{k}$ where $m$ is the number of features, $k$ is the number of classes, and $\Theta : \{Preprocessing_{method}, Feature_{extration}, Statistical_{Tecnique} \}$ is a set representing parameters. Giving this abstraction $\Theta$ modifies the structure  $\mathcal{P}$ but always takes a \textit{feature vector} $X \in  \mathbb{R}^{m}$, and returns a \textit{Probability vector} $Y \in  \mathbb{R}^{k}$ where each component $\in  [0,1]$.\\
+Let us define a modeling procedure as a function $\mathcal{P}(\Theta): \mathbb{R}^{m} \longrightarrow \mathbb{R}^{k}$ where $m$ is the number of features, $k$ is the number of classes, and $\Theta : \{Preprocessing_{method}, Feature_{extration}, Statistical_{Tecnique} \}$ is a set representing parameters. Giving this abstraction, $\Theta$ modifies the structure  $\mathcal{P}$ but always takes a \textit{feature vector} $X \in  \mathbb{R}^{m}$, and returns a \textit{Probability vector} $Y \in  \mathbb{R}^{k}$ where each component $\in  [0,1]$.\\
 
-It is clear that the $\mathcal{P}(\Theta)$ that represents exactly the reality regarding athletics movements is unknown to us, which let us to defined a measure of the amount of veracity that a giving $\mathcal{P}$ has compare to reality.
+It is clear that the $\mathcal{P}(\Theta)$ that represents exactly the reality regarding athletics movements is unknown to us, which let us to defined a measure of the amount of veracity that a giving $\mathcal{P}$ has compared to reality.
 
 \begin{equation}
 accuracy=  \frac{\sum Correct_{classification}}{N}
@@ -193,10 +193,10 @@ accuracy=  \frac{\sum Correct_{classification}}{N}
 Given the modeling procedure $\mathcal{P}$ defined in the Subsection \ref{notation}
 for a given learning task, one usually seeks to evaluate its performance in the
 so-called training data and testing data. The training data is not but the set of
-data points utilized during the training procedure whereas the testing data is a
+data points utilized during the training procedure, whereas the testing data is a
 completely new data points set. Ideally, an efficient modeling procedure
 $\mathcal{P}$ will fit the training data and also generalize well to new data.
-However, during training time only training data is available. In this sense, the
+However, during training time, only training data is available. In this sense, the
 statistical method \textit{Cross validation} can be applied to estimate training
 and testing error even though only training data is available. This way, it is
 possible to estimate if the model is overfitting or underfitting using only the
@@ -208,12 +208,12 @@ Training data set is artificially split into two subsets. One partition is then
 used as the training data while the other one is used as the testing data 
 \cite{lecturenotes}.
 
-Apart from this simplest data partition strategy, one may also split the data set
+Apart from this more straightforward data partition strategy, one may also split the data set
 into \textit{K} partitions, more commonly called \textit{folds}. The process follows
 by holding one the of \textit{folds} as the testing data set while the remaining
 \textit{K - 1 folds} are aggregated as the training data set. The process is
-repeated \textit{K} times given that each partition is utlized as the testing data
-set exactly once. The model is then assessed by takingn the average of the results
+repeated \textit{K} times given that each partition is utilized as the testing data
+set exactly once. The model is then assessed by taking the average of the results
 obtained during the \textit{K} repetitions. The optimal model will perform well
 in the testing and training data, avoiding this way overfitting and underfitting,
 respectively. In more educated terms, it will present low variance when the
@@ -225,16 +225,16 @@ low bias if it fits the training data set efficiently \cite{lecturenotes}.
 
 The curse of dimensionality is a common machine learning problem. It happens when
 the dimension of the \textit{input vetors}, \textit{m}, is much higher than the
-number of data points \textit{N}. In this case, the data poins will be highly sparsed
-distributed in the \textit{m}-dimensional coordinate system called defined by the
+number of data points \textit{N}. In this case, the data points will be highly sparsed
+distributed in the \textit{m}-dimensional coordinate system defined by the
 vector space spanned by the linear combination of the \textit{input vectors}.
 In other words, the data points will present large distances from each other.
-Consenquently, the modeling procedure $\mathcal{P}$ will have difficulties in
-finding similarities between the data points \cite{lecturenotes}.
+Consequently, the modeling procedure $\mathcal{P}$ will have difficulties in
+finding similarities between the highly sparsed data points \cite{lecturenotes}.
 
-A solution for this curse is to reduce the dimensionality of the by applying feature
+A solution for this curse is to reduce the dimensionality of the data set by applying feature
 extraction functions such as Principal Component Analysis and \textit{K-means} \cite{lecturenotes}. The idea in this
-stage is to reduce the data points dimension without highly comprimisiing in loss of
+stage is to reduce the data points dimension without highly compromising in loss of
 information. A rule of thumb practically applied is to respect a ratio of 10 features
 per data point \cite{lecturenotes}.
 
@@ -244,31 +244,31 @@ Two \textit{Preprocessing methods} procedures were implemented.
 
 \textbf{Preprocessing method 1}:
 \begin{enumerate}
-	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
+	\item Take a \textbf{subject file} (each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where the number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
 	\item Transpose each $S_{data}$ into a row vector, concatenating them into one single vector $S_{concat} \in  \mathbb{R}^{1 \times 19*N_{fr} }$
 	\item Repeat step 1 and 2 for every subject file.
-	\item Create a dataset with the rows of step 3 with it according it corresponding label (extracted from the name of the file). This data set is a matrix $D$ of dimensions $[6401 \times (19*N_{fr})]$. For $N_{fr}=56810$ $D$ is $[6401 \times 1079390+1]$.
+	\item Create a dataset with the rows of step 3 and the corresponding label (extracted from the name of the file). This data set is a matrix $D$ of dimensions $[6401 \times (19*N_{fr})]$. For $N_{fr}=56810$ $D$ is $[6401 \times 1079390+1]$.
 \end{enumerate}
 
 \textbf{Preprocessing method 2}:
 \begin{enumerate}
-	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
-	\item For each $S_{data}$ decomposed it as $s_{data}=\mu+\omega$ where $\mu$ is a smoothed version of $s_{data}$ calculated using lowess with tree points average weighted linear regression. A complete derivation of this algorithm can be found in \cite{cleveland1979robust}. Having $s_{data}$ and $\mu$ calculate $\omega =s_{data}-\mu$. Create a vector $\mu_{sta} \in \mathbb{R}^{3}$ with first tree statistical moments of $\mu$, that is, the average, the variance, and the steepness. calculate the discrete Fourier transformation of $\omega$, extract the first five coefficients and put them in a vector $\omega_{fft} \in \mathbb{R}^{5}$. A complete derivation of this algorithms can be found in \cite{oraintara2002integer}.
-	take $\mu_{sta}$ and concatenate it with $\omega_{fft}$ into a row vector $S \in \mathbb{R}^{8}$
-	\item concatenate each $S$ into a single vector $S_{row} \in \mathbb{R}^{8*19}$
+	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$, where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
+	\item For each $S_{data}$, decompose it as $s_{data}=\mu+\omega$, where $\mu$ is a smoothed version of $s_{data}$ calculated using lowess with tree points average weighted linear regression. A complete derivation of this algorithm can be found in \cite{cleveland1979robust}. Having $s_{data}$ and $\mu$, calculate $\omega =s_{data}-\mu$. Create a vector $\mu_{sta} \in \mathbb{R}^{3}$ with first tree statistical moments of $\mu$, that is, the average, the variance, and the steepness. Calculate the discrete Fourier transformation of $\omega$, extract the first five coefficients and arrange them in a vector $\omega_{fft} \in \mathbb{R}^{5}$. A complete derivation of this algorithms can be found in \cite{oraintara2002integer}.
+	Take $\mu_{sta}$ and concatenate it with $\omega_{fft}$ into a row vector $S \in \mathbb{R}^{8}$.
+	\item Concatenate each $S$ into a single vector $S_{row} \in \mathbb{R}^{8*19}$.
 	\item Repeat steps 1 to 3 for every \textbf{subject file} and stack the vectors $S$ with its corresponding label into a matrix $D$ is $[6401 \times 8*19]$.
 \end{enumerate}
 
- For $Preprocessing_{ \ method \ 1}$ the parameter $N_{fr}$ had to be set, since each \textbf{subject file} had different number records. By observing a 100 random sample of files, we concluded rather arbitrarily that  $N_{fr}=56810$  was reasonable number of records. In case a particular file did not meet this requirement, the signal per sensor would repeat itself until the desired $N_{fr}$ was reached. The idea with $Preprocessing_{ \ method \ 2}$ was to capture the general properties of the movement(using $\mu_{sta}$) in terms of its statistical moments. On the other hand, we also attempted to capture information about the periodicity of the movement using $\omega_{fft}$.
+ For the $Preprocessing_{ \ method \ 1}$ the parameter, $N_{fr}$ had to be set, since each \textbf{subject file} had different number records. By observing a 100 random sample of files, we concluded rather arbitrarily that  $N_{fr}=56810$  was a reasonable number of records. In case a particular file did not meet this requirement, the signal per sensor would repeat itself until the desired $N_{fr}$ was reached. The idea with $Preprocessing_{ \ method \ 2}$ was to capture the general properties of the movement(using $\mu_{sta}$) in terms of its statistical moments. On the other hand, we also attempted to capture information about the periodicity of the movement using $\omega_{fft}$.
 
 
 \section{Data Exploitation}
 
-Depending on the $Preprocessing_{method}$ some $Feature_{extration}$ and $Statistical_{Tecnique}$ combination would more adequate to implement than other. Here we only present highest \textit{accuracy} combinations.
+Depending on the $Preprocessing_{method}$, some $Feature_{extration}$ and $Statistical_{Tecnique}$ combination would be more adequated to implement than others. Here we only present the highest \textit{accuracy} combinations.
 
 \subsection{Data Exploitation with $Preprocessing_{ \ method \ 1}$}
 
-One problem that is immediately observed with $Preprocessing_{ \ method \ 1}$ is the immense dimensionality of the sample space, therefore trying to find a $Statistical_{Tecnique}$  capable of learning an adequate decision function is basically impossible. To bypass this problem implemented a $Feature_{extration}$ and $Statistical_{Tecnique}$ shown in the Figure \ref{dig:p1}.
+One problem that is immediately observed with $Preprocessing_{ \ method \ 1}$ is the immense dimensionality of the sample space. Therefore, trying to find a $Statistical_{Tecnique}$  capable of learning an adequate decision function is basically impossible. To bypass this problem, we implemented a $Feature_{extration}$ and $Statistical_{Tecnique}$ shown in the Figure \ref{dig:p1}.
 
 
 \begin{figure}[htpb!]
@@ -278,7 +278,7 @@ One problem that is immediately observed with $Preprocessing_{ \ method \ 1}$ is
 	\label{dig:p1}
 \end{figure}
 
-We theorized that the importance of features in matrix $D$ measured by its variance will strongly depend on the particular movement involved, acknowledging this we filtered matrix $D$ by class, and applied principal component analysis $PCA_{|class}: \mathbb{R}^{1079390} \longrightarrow \mathbb{R}^{275}$ to extract the first 275 principal components(this transformation will be the beginning a branch in Figure \ref{dig:p1}) that accounts to 90 $\%$ of the variance. Note that the first level in \ref{dig:p1} has 22 $PCA_{|class}$ extractors. For training, matrix $D$ is passed without filtering per label to each $PCA_{|class}$ and then feed to a \textit{Binary logistic regression} $LogR_{|class}: \mathbb{R}^{275} \longrightarrow [0,1]$ where the classes are encoded in \textit{one vs all} manner. Each of the $LogR_{|class}$ will output a degree of believe that a particular $X$ belows to a class $k$. Finally concatenating the degree of believe predicted by each $LogR_{|class}$ we construct a $X' \in \mathbb{R}^{22}$. Finally $X'$ is passed to a single feed forward neuronal network $NN: \mathbb{R}^{22} \longrightarrow  \mathbb{R}^{22} $ that predicts our final probability vector $Y$ in a \textit{hot encoded} structure, we take the maximum component and assign its corresponding label to that register.
+We theorized that the importance of features in matrix $D$ measured by its variance will strongly depend on the particular movement involved, acknowledging this, we filtered matrix $D$ by class, and applied principal component analysis $PCA_{|class}: \mathbb{R}^{1079390} \longrightarrow \mathbb{R}^{275}$ to extract the first 275 principal components (this transformation will be the beginning of a branch in Figure \ref{dig:p1}) that accounts to 90 $\%$ of the variance. Note that the first level in the Figure \ref{dig:p1} has 22 $PCA_{|class}$ extractors. For training, matrix $D$ is passed without filtering per label to each $PCA_{|class}$ and then feed to a \textit{Binary logistic regression} $LogR_{|class}: \mathbb{R}^{275} \longrightarrow [0,1]$, where the classes are encoded in \textit{one vs all} manner. Each of the $LogR_{|class}$ will output a degree of believe that a particular $X$ belonges to a class $k$. Finally, concatenating the degree of belief predicted by each $LogR_{|class}$, we construct a $X' \in \mathbb{R}^{22}$. Finally, $X'$ is passed to a single feed forward neuronal network $NN: \mathbb{R}^{22} \longrightarrow  \mathbb{R}^{22} $ that predicts our final probability vector $Y$ in a \textit{hot encoded} structure. We take the maximum component and assign its corresponding label to that observation.
 
 
 \begin{equation}
@@ -288,7 +288,7 @@ We theorized that the importance of features in matrix $D$ measured by its varia
 
 
 \subsection{Data Exploitation with $Preprocessing_{ \ method \ 2}$}
-The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no further dimension reduction is required. We implemented a variety of feed forward neuron networks using tensor flow, where we varied the Network architecture composed by the number of hidden units $H_{units} \in \mathbb{N}^{>0}$ per hidden layer $H_{L} \in \mathbb{N}^{>0}$ the regularization parameter $\alpha \in \mathbb{R}^{>0}$, and the activation functions, namely $ \{  Logistic, tanh, relu \}$. From Figures \ref{sm1} to  \ref{sm22} we can observe $\mu$ signal examples per label.
+The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no further dimension reduction is required. We implemented a variety of feed forward neural networks using TensorFlow, where we varied the Network architecture composed by the number of hidden units $H_{units} \in \mathbb{N}^{>0}$ per hidden layer $H_{L} \in \mathbb{N}^{>0}$ the regularization parameter $\alpha \in \mathbb{R}^{>0}$, and the activation functions, namely $ \{  Logistic, tanh, relu \}$. From Figures \ref{sm1} to  \ref{sm22} we can observe $\mu$ signal examples per label.
 
 \begin{equation}
 \Theta_{2}:= \{ Preprocessing_{ \ method \ 2},NN \}
@@ -423,15 +423,12 @@ The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no fu
 	\end{minipage}
 \end{figure}
 
-
-
 \section{Data Analysis}
-
 
 \subsection{Data Analysis with $\mathcal{P}(\Theta_{1})$}
 The last procedure to complete the full scheme in Figure \ref{dig:p1} is the implementation of the
 \emph{Fully-Connected Neural Network (FCNN)}. Applying this \emph{Deep Learning} approach on the preprocessed
-data serves as an alternate technique to optmize the loss function and increase accuracy.
+data serves as an alternative technique to optimize the loss function and increase accuracy.
 
 When implementing FCNN using \emph{Pandas} \cite{pandasdataframe} and \emph{Scikit-Learn} \cite{scikitlearn}, there are several specifications to account for. Among them figure the
 \emph{activation function}, the regularization factor \emph{alpha}, and the number of neurons per $ith$ hidden layer. To briefly
@@ -446,7 +443,7 @@ summarize some parameters, as per relevance or rule of thumbs, we describe their
 \end{itemize}
 
 Given the preprocessed data, whose order of magnitude scales to 1000+ data points, the default parameters
-reveal themselves ideal to test out first. Then, based on the obtained results, we would assess the accuracy of
+reveal themselves ideal for testing out first. Then, based on the obtained results, we would assess the accuracy of
 the prediction by tuning the other parameters (e.g. alpha) accordingly with the expectations of optimizing
 the classifier and improving the accuracy.
 
@@ -469,16 +466,14 @@ Finally, the best parameters set found on the classifier development set are:
     \textit{lbfgs} & \textit{tanh} & \textit{20} & \textit{0.01} \\
     \end{tabular}
 \end{center}
-with an improved accuracy of $84.44\%$.
+With an improved accuracy of $84.44\%$.
 
 \subsection{Data Analysis with $\mathcal{P}(\Theta_{2})$}
 
-Giving that the same $Stastistical_{Technique}$, namely \emph{Fully-Connected Neural Network (FCNN)} was used for  $\mathcal{P}(\Theta_{2})$ the prior section parameters definitions holds the same however, instead of using \emph{Scikit-Learn} we set up an environment where the \emph{FCNN} algorithm was implemented using \emph{keras} with \emph{Tensor-flow} back-end for \emph{gpu} usage.
+Giving that the same $Stastistical_{Technique}$, namely \emph{Fully-Connected Neural Network (FCNN)} was used for  $\mathcal{P}(\Theta_{2})$ the prior section parameters definitions holds the same. However, instead of using \emph{scikit-learn}, we set up an environment where the \emph{FCNN} algorithm was implemented using \emph{Keras} with \emph{TensorFlow} Back-end for \emph{GPU} usage.
 
 \subsubsection{Experimental Setup}
-Train an \emph{FCNN} with such high dimension dataset $D$ $[6401 \times 153]$ is computationally expensive(in fact this is the reason we were force to used \emph{keras}) so trying a \emph{cross-validation} plus  \emph{grid-search} as in   $\mathcal{P}(\Theta_{1})$ is not piratically possible. We used instead a simply $75\%$ and $25\%$ train-test split, and randomly tested different \emph{FCNN} architectures. We also min-max scale so that \emph{FCNN} was trained using features $\in [0,1]$ interval, for increasing the convergence time.
-
-
+Training a \emph{FCNN} high dimensional dataset $D$ $[6401 \times 153]$ is computationally expensive(in fact this is the reason we were force to use \emph{keras}). So trying a \emph{cross-validation} plus  \emph{grid-search}, as in   $\mathcal{P}(\Theta_{1})$, is not practically possible. We used instead a simply $75\%$ and $25\%$ train-test split, and randomly tested different \emph{FCNN} architectures. We also apply min-max scale so that \emph{FCNN} was trained using features $\in [0,1]$ interval, for increasing the convergence time.
 
 \section{Results and Discussions}
 
@@ -511,20 +506,20 @@ Train an \emph{FCNN} with such high dimension dataset $D$ $[6401 \times 153]$ is
 \end{figure}
 
 
-From Figure \ref{fig:confusion} we can conclude that the most misclassification occurs with the classes \emph{stand} and \emph{sit} which intuitively are mechanically similar, this can be further confirmed by looking at the smoothen ($\mu$) plots \ref{sit} and \ref{stand}. We tried to modified the $Preprocessing_{ \ method \ 1}$ to include some manually crafted features that will indicate a clear different between \emph{stand} and \emph{sit}, they can be summarized as follows:
+From Figure \ref{fig:confusion}, we can conclude that most misclassification occurs with the classes \emph{stand} and \emph{sit}, which intuitively are mechanically similar. This can be further confirmed by looking at the smoothen ($\mu$) plots \ref{sit} and \ref{stand}. We tried to modify the $Preprocessing_{ \ method \ 1}$ to include some manually crafted features that will indicate a clear difference between \emph{stand} and \emph{sit}. They can be summarized as follows:
 
 
 \begin{itemize}
 	\item The first and second derivate of $\mu$, since we believed the direction of the movement had to be different.
-	\item The maximum value of the $\mu$, since sensor data related to distance from the floor must different for both classes.
-	\item increase to 5 five the number of statistical moments.
+	\item The maximum value of the $\mu$, since sensor data related to distance from the floor must be different for both classes.
+	\item increase to five the number of statistical moments.
 \end{itemize}
 
-Unfortunately none of them gave better results on the test data. The main reason being that this particular adjustment had to me made to all the features, this in term caused other features to get noise, as a result, the decrease in misclassification gained in the pair  \emph{stand}, \emph{sit} was undermined by the increase of misclassification on other features, particularly \emph{sit-to-stand} and \emph{stand-to-sit}.
+Unfortunately, none of them presented better results on the test data. The main reason being that this particular adjustment had to be me made to all features. This caused other features to get noise. As a result, the decrease in misclassification gained in the pair  \emph{stand}, \emph{sit} was undermined by the increase of misclassification on other features, particularly \emph{sit-to-stand} and \emph{stand-to-sit}.
 
 \subsection{Results and Discussions for  $\mathcal{P}(\Theta_{1})$}
 
-In Table \ref{table:p1_result} we can observe that the Challenge score is inferior to that reached on $\mathcal{P}(\Theta_{2})$, since this was the case, we focused our efforts of optimization on $\mathcal{P}(\Theta_{2})$.
+In Table \ref{table:p1_result}, we can observe that the Challenge score is inferior to that reached on $\mathcal{P}(\Theta_{2})$. Since this was the case, we focused our efforts of optimization on $\mathcal{P}(\Theta_{2})$.
 
 \begin{table}[h!]
 	\begin{center}
@@ -545,16 +540,16 @@ In Table \ref{table:p1_result} we can observe that the Challenge score is inferi
 \subsection{Conclusion for $\mathcal{P}(\Theta_{1})$}
 
 \begin{itemize}
-	\item In retrospective we realized that we introduced some \emph{data leakage} on this implementation, since while constructing $PCA_{|class}$ we feed the algorithms the whole dataset. This could be an explanation for the difference in performance on our $CV_{test}$ and challenge score.
-	\item In $Preprocessing_{ \ method \ 1}$  we arbitrarily choose the number of time steps to be 56810 per signal, we believed that this decision should be made with more empirical knowledge of the phenomena, to increase the performance of $\mathcal{P}(\Theta_{1})$.
-	\item We also implemented \emph{Boosting} with \emph{random forest} with $4\%$ increase in $CV_{test}$ however, the competition had already finished and we could not test the result on the challenge data.
+	\item In retrospective, we realized that we introduced some \emph{data leakage} on this implementation, since, while constructing $PCA_{|class}$, we feed the algorithms with the whole dataset. This could be an explanation for the difference in performance on our $CV_{test}$ and challenge score.
+	\item In $Preprocessing_{ \ method \ 1}$  we arbitrarily choose the number of time steps to be 56810 per signal. We believed that this decision should be made with more empirical knowledge of the phenomena to increase the performance of $\mathcal{P}(\Theta_{1})$.
+	\item We also implemented \emph{Boosting} with \emph{random forest} with $4\%$ increase in $CV_{test}$. However, the competition had already finished and we could not test the result on the challenge data.
 \end{itemize}
 
 \subsection{Conclusion for $\mathcal{P}(\Theta_{2})$}
 
 \begin{itemize}
-	\item After the competition finished we realized that one reason for the difference in performance between our test and the challenge score might have been that the splitting of our data was done randomly, we believe that setting aside entire subjects would have been a better approach, after all, an individual should walk and run in a similar manner.
-	\item In other to increase the performance of $\mathcal{P}(\Theta_{2})$ we believe a window of sampling the signal $S_{data}$ should be implemented using expert knowledge on the subject. As a side note, we tried the latest by splitting $S_{data}$ into 3 sectors and then repeating $Preprocessing_{ \ method \ 2}$. unfortunately, this is very computational expensive, and the attempt, after days of running had to be stooped.
+    \item After the competition finished, we realized that one reason for the difference in performance between our test and the challenge score might have been that the splitting of our data was done randomly. We believe that setting aside entire subjects would have been a better approach, after all, an individual should walk and run in a similar manner.
+    \item In order to increase the performance of $\mathcal{P}(\Theta_{2})$, we believe that a window sampling the signal $S_{data}$ should be implemented using expert knowledge on the subject. As a side note, we tried the latest by splitting $S_{data}$ into 3 sectors and then by repeating $Preprocessing_{ \ method \ 2}$. Unfortunately, this is very computationally expensive, and, for this reason, the attempt had to be suspended after days of processing time.
 
 \end{itemize}
 
