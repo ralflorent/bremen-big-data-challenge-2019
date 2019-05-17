@@ -179,7 +179,7 @@ random initialization states, mechanical flaws, computational and processing cos
 
 \section{General comments}
 
-\subsection{Notation}
+\subsection{Notation} \label{notation}
 Let us defined a modeling procedure as  a function $\mathcal{P}(\Theta): \mathbb{R}^{m} \longrightarrow \mathbb{R}^{k}$ where $m$ is the number of features, $k$ is the number of classes, and $\Theta : \{Preprocessing_{method}, Feature_{extration}, Statistical_{Tecnique} \}$ is a set representing parameters. Giving this abstraction $\Theta$ modifies the structure  $\mathcal{P}$ but always takes a \textit{feature vector} $X \in  \mathbb{R}^{m}$, and returns a \textit{Probability vector} $Y \in  \mathbb{R}^{k}$ where each component $\in  [0,1]$.\\
 
 It is clear that the $\mathcal{P}(\Theta)$ that represents exactly the reality regarding athletics movements is unknown to us, which let us to defined a measure of the amount of veracity that a giving $\mathcal{P}$ has compare to reality.
@@ -200,16 +200,44 @@ completely new data points set. Ideally, an efficient modeling procedure
 $\mathcal{P}$ will fit the training data and also generalize well to new data. 
 However, during training time only training data is available. In this sense, the 
 statistical method \textit{Cross validation} can be applied to estimate training 
-and testing error even though only training data is available.
+and testing error even though only training data is available. This way, it is 
+possible to estimate if the model is overfitting or underfitting using only the 
+training data set.
 
-While simple, Cross validation is a powerful method that can be applied in order
-to estimate the testing error. The simplicity is in the process. The training data
-set is artificially split into two subsets, the "training" and "testing" dataset.
+Despite being simple, Cross validation is still a powerful method that can be 
+applied to estimate the testing error. The simplicity is in the process. The 
+Training data set is artificially split into two subsets. One partition is then 
+used as the training data while the other one is used as the testing data.
+
+Apart from this simplest data partition strategy, one may also split the data set
+into \textit{K} partitions, more commonly called \textit{folds}. The process follows
+by holding one the of \textit{folds} as the testing data set while the remaining
+\textit{K - 1 folds} are aggregated as the training data set. The process is 
+repeated \textit{K} times given that each partition is utlized as the testing data
+set exactly once. The model is then assessed by takingn the average of the results
+obtained during the \textit{K} repetitions. The optimal model will perform well
+in the testing and training data, avoinding this way overfitting and underfitting, 
+respectively. In more educated terms, it will present low variance when the 
+different \textit{K} training data sets are introduced by the cross validation, and
+low bias if it fits the training data set efficiently.
+
 
 \subsection{Curse of dimensionality}
 
-\textit{Guys please explain this also. remember to say the 10 feature rule thumbs and cited jaeger lectures notes.}
+The curse of dimensionality is a common machine learning problem. It happens when
+the dimension of the \textit{input vetors}, \textit{m}, is much higher than the 
+number of data points \textit{N}. In this case, the data poins will be highly sparsed 
+distributed in the \textit{m}-dimensional coordinate system called defined by the 
+vector space spanned by the linear combination of the \textit{input vectors}.
+In other words, the data points will present large distances from each other.
+Consenquently, the modeling procedure $\mathcal{P}$ will have difficulties in
+finding similarities between the data points.
 
+A solution for this curse is to reduce the dimensionality of the by applying feature
+extraction functions such as Principal Component Analysis and \textit{K-means}. The idea in this
+stage is to reduce the data points dimension without highly comprimisiing in loss of
+information. A rule of thumb practically applied is to respect a ratio of 10 features
+per data point.
 
 \section{Data Preprocessing}
 
