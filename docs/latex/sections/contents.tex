@@ -246,7 +246,7 @@ Two \textit{Preprocessing methods} procedures were implemented.
 \textbf{Preprocessing method 1}:
 \begin{enumerate}
 	\item Take a \textbf{subject file}(each file contains a class movement). It can be viewed as $[19 \times N_{fr}]$ matrix composed by 19 columns vectors $S_{data} \in \mathbb{R}^{N_{fr} \times 1}$  where number of records in file is $N_{fr} \in \mathbb{N}^{>0}$.
-	\item Transpose each $S_{data}$ into a row vector, concatenating them into one single vector $S_{concat} \in  \mathbb{R}^{1 \times 19*N_{fr} }$ 
+	\item Transpose each $S_{data}$ into a row vector, concatenating them into one single vector $S_{concat} \in  \mathbb{R}^{1 \times 19*N_{fr} }$
 	\item Repeat step 1 and 2 for every subject file.
 	\item Create a dataset with the rows of step 3 with it according it corresponding label (extracted from the name of the file). This data set is a matrix $D$ of dimensions $[6401 \times (19*N_{fr})]$. For $N_{fr}=56810$ $D$ is $[6401 \times 1079390+1]$.
 \end{enumerate}
@@ -260,12 +260,12 @@ Two \textit{Preprocessing methods} procedures were implemented.
 	\item Repeat steps 1 to 3 for every \textbf{subject file} and stack the vectors $S$ with its corresponding label into a matrix $D$ is $[6401 \times 8*19]$.
 \end{enumerate}
 
- For $Preprocessing_{ \ method \ 1}$ the parameter $N_{fr}$ had to be set, since each \textbf{subject file} had different number records. By observing a 100 random sample of files, we concluded rather arbitrarily that  $N_{fr}=56810$  was reasonable number of records. In case a particular file did not meet this requirement, the signal per sensor would repeat itself until the desired $N_{fr}$ was reached. The idea with $Preprocessing_{ \ method \ 2}$ was to capture the general properties of the movement(using $\mu_{sta}$) in terms of its statistical moments. On the other hand, we also attempted to capture information about the periodicity of the movement using $\omega_{fft}$. 
+ For $Preprocessing_{ \ method \ 1}$ the parameter $N_{fr}$ had to be set, since each \textbf{subject file} had different number records. By observing a 100 random sample of files, we concluded rather arbitrarily that  $N_{fr}=56810$  was reasonable number of records. In case a particular file did not meet this requirement, the signal per sensor would repeat itself until the desired $N_{fr}$ was reached. The idea with $Preprocessing_{ \ method \ 2}$ was to capture the general properties of the movement(using $\mu_{sta}$) in terms of its statistical moments. On the other hand, we also attempted to capture information about the periodicity of the movement using $\omega_{fft}$.
 
 
 \section{Data Exploitation}
 
-Depending on the $Preprocessing_{method}$ some $Feature_{extration}$ and $Statistical_{Tecnique}$ combination would more adequate to implement than other. Here we only present highest \textit{accuracy} combinations. 
+Depending on the $Preprocessing_{method}$ some $Feature_{extration}$ and $Statistical_{Tecnique}$ combination would more adequate to implement than other. Here we only present highest \textit{accuracy} combinations.
 
 \subsection{Data Exploitation with $Preprocessing_{ \ method \ 1}$}
 
@@ -273,10 +273,10 @@ One problem that is immediately observed with $Preprocessing_{ \ method \ 1}$ is
 
 
 \begin{figure}[htpb!]
-	\centering 
+	\centering
 	\includegraphics[width=0.7\textwidth]{images/scheme_1.pdf}
-	\caption{$\mathcal{P}(\Theta_{1})$  Scheme} 
-	\label{dig:p1} 
+	\caption{$\mathcal{P}(\Theta_{1})$  Scheme}
+	\label{dig:p1}
 \end{figure}
 
 We theorized that the importance of features in matrix $D$ measured by its variance will strongly depend on the particular movement involved, acknowledging this we filtered matrix $D$ by class, and applied principal component analysis $PCA_{|class}: \mathbb{R}^{1079390} \longrightarrow \mathbb{R}^{275}$ to extract the first 275 principal components(this transformation will be the beginning a branch in Figure \ref{dig:p1}) that accounts to 90 $\%$ of the variance. Note that the first level in \ref{dig:p1} has 22 $PCA_{|class}$ extractors. For training, matrix $D$ is passed without filtering per label to each $PCA_{|class}$ and then feed to a \textit{Binary logistic regression} $LogR_{|class}: \mathbb{R}^{275} \longrightarrow [0,1]$ where the classes are encoded in \textit{one vs all} manner. Each of the $LogR_{|class}$ will output a degree of believe that a particular $X$ belows to a class $k$. Finally concatenating the degree of believe predicted by each $LogR_{|class}$ we construct a $X' \in \mathbb{R}^{22}$. Finally $X'$ is passed to a single feed forward neuronal network $NN: \mathbb{R}^{22} \longrightarrow  \mathbb{R}^{22} $ that predicts our final probability vector $Y$ in a \textit{hot encoded} structure, we take the maximum component and assign its corresponding label to that register.
@@ -426,8 +426,49 @@ The dimension of $X$ using $Preprocessing_{ \ method \ 2}$ is $R^{152}$ so no fu
 
 \section{Data Analysis}
 
+The last procedure to complete the full scheme in Figure \ref{dig:p1} is the implementation of the
+\emph{Fully-Connected Neural Network (FCNN)}. Applying this \emph{Deep Learning} approach on the preprocessed
+data serves as an alternate technique to optmize the loss function and increase accuracy.
 
-\textit{Ralph i think it would be good if you explain here what you do when you implemented the "fully connected neuron network, like explain the parameters optimization and so on". that implementation will account for the neuron network at the end of the diagram in figure \ref{dig:p1}, report here also the score you got.}
+When implementing FCNN using \emph{Scikit-Learn}, there are several specifications to account for. Among them figure the
+\emph{activation function}, the regularization factor \emph{alpha}, and the number of hidden layers. To briefly
+summarize some parameters, as per relevance or rule of thumbs, we describe their optional values:
+\begin{itemize}
+    \item The solver for the weight optimization ('lbfgs', 'sgd', 'adam')
+    \item The number of hidden layers ranging between $100 \pm 20$
+    \item The regularization factor varying between $0.1$ and $0.00001$\footnote{Practice shows that
+    by varying alpha the classifier has greater chance to perform way better than by adjusting the
+    number of layers, or trying other algorithm.}
+    \item The activation function for the hidden layers ('identity', 'logistic', 'tanh', 'relu')
+\end{itemize}
+
+Given the preprocessed data, whose order of magnitude scales to 1000+ data points, the default parameters
+reveal themselves ideal to test out first. Then, based on the obtained results, we would assess the accuracy of
+the prediction by tuning the other parameters (e.g. alpha) accordingly with the expectations of optimizing
+the classifier and improving the accuracy.
+
+The settings for the default values when running the MLPClassifier are: % source: \parencite{sklearnMLPclassifier}
+\begin{center}
+    \begin{tabular}{ c c c c c }
+    \textbf{Solver} & \textbf{Activation Function} & \textbf{Hidden Layers}  &  \textbf{Alpha} \\
+    \textit{lbfgs} & \textit{relu} & \textit{50} & \textit{0.01} \\
+    \end{tabular}
+\end{center}
+Surprisingly, both the training and testing errors score an error rate of $83.7\%$. Hoping
+to find the parameters that work best for the task optimization, we performed \emph{Grid Search} by combining
+above-mentioned options and tweaking them in the same range as in our first test. For instance, the chosen
+values for alpha were $10^{-1}, 10^{-2}, 10^{-3}, 10^{-4}$, and $10^{-5}$.
+
+Finally, the best parameters set found on the classifier development set are:
+\begin{center}
+    \begin{tabular}{ c c c c c }
+    \textbf{Solver} & \textbf{Activation Function} & \textbf{Hidden Layers}  &  \textbf{Alpha} \\
+    \textit{lbfgs} & \textit{tanh} & \textit{20} & \textit{0.01} \\
+    \end{tabular}
+\end{center}
+with an improved accuracy of $84.44\%$. This leads to believe that there is a non-linear relationship
+between the feature vectors and the classified labels.
+
 By submitting both approaches to the challenge we observed that $\mathcal{P} (\Theta_{2})$ outperformed  $\mathcal{P}(\Theta_{1})$ so for this and the following sections we will focus our attention on  $\mathcal{P} (\Theta_{1})$
 
 \section{Results and Discussions}
@@ -436,10 +477,10 @@ By submitting both approaches to the challenge we observed that $\mathcal{P} (\T
 
 
 \begin{figure}[htpb!]
-	\centering 
+	\centering
 	\includegraphics[width=\textwidth]{images/conf_ma.png}
-	\caption{$\mathcal{P}(\Theta_{2})$  Confusion matrix on test data} 
-	\label{fig:confusion} 
+	\caption{$\mathcal{P}(\Theta_{2})$  Confusion matrix on test data}
+	\label{fig:confusion}
 \end{figure}
 
 \section{Conclusion}
@@ -447,10 +488,10 @@ By submitting both approaches to the challenge we observed that $\mathcal{P} (\T
 
 
 \begin{thebibliography}{1}
-\bibitem{1} 
+\bibitem{1}
 Cleveland, W.S. (1979) “Robust Locally Weighted Regression and Smoothing Scatterplots”. Journal of the American Statistical Association 74 (368): 829-836.
 
-\bibitem{2} 
+\bibitem{2}
 Oraintara, S., Chen, Y. J., \& Nguyen, T. Q. (2002). Integer fast Fourier transform. IEEE Transactions on Signal Processing, 50(3), 607-618.
 
 \end{thebibliography}
