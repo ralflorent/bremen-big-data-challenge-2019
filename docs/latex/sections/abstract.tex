@@ -18,13 +18,38 @@
 % ==============================================================================
 
 \begin{abstract}
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-    labore et dolore magna aliqua. Laoreet non curabitur gravida arcu ac. Et molestie ac feugiat sed
-    lectus vestibulum mattis ullamcorper velit. Turpis egestas pretium aenean pharetra. Amet justo
-    diam vulputate ut pharetra sit. Elit scelerisque mauris pellentesque pulvinar. Mauris in aliquam
-    sem fringilla. Id ornare arcu odio ut sem nulla. Nunc lobortis mattis aliquam faucibus purus.
-    Eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar. Nulla aliquet enim tortor
-    auctor urna nunc id cursus. Varius quam quisque id diam vel quam elementum pulvinar.
+    This report proposes a complete data workflow solution for the supervised 
+    classification task introduced in the competition
+    \textit{Bremen Big Data Challlenge}. The available data set is composed
+    of signals obtained by wearable movement sensors placed in the leg of human
+    subjects. The task at hand is to then classify 22 different movements 
+    evaluating the modeling procedure according to its accuracy, given the
+    sensors signals sampled at 1000 Hz. The training data set is structured
+    in a way in which each row of it is in fact a \textit{.csv} subject file 
+    composed of 19 (number of sensors) columns and $N_{fr}$ rows, formally speaking, 
+    a $[19 \times N_{fr}]$ matrix, for a specific movement class. 
+    Two Preprocessing methods are applied to the data set. In the first method, 
+    each subject data set, the $[19 \times N_{fr}]$ matrix is flatten, that is, 
+    reshaped into a single vector belonging to $\mathbb{R}^{N_{fr} \times 19}$. 
+    The same procedure is applied to every single subject file in the training 
+    data set, that is, to the 6401 subjects files. The result is a 
+    $[6401 \times (19 * N_{fr})]$ matrix. In the second method, for each of 
+    the 19 sensors, the first three statistical moments 
+    (mean, variance, and steepness, respectively) are calculated, as well as the
+    first five coefficients of the signals discrete Fourier transformation.
+    After this feature extraction strategy is applied to all 6401 subject files,
+    a $[6401 \times 8 * 19]$ matrix is obtained. Due to the high dimensionality
+    characteristic of the data set, feature extration methods are implemented to
+    work around this issue in the Preprocessing method 1. Principal Component 
+    Analysis and Binary Logistic Regression are implemented in this case. After 
+    the extraction phase, a variety of feed forward neural networks are applied
+    using TensorFlow differing in the topology adopted. Two modeling procedures 
+    are then applied obtaining test accuracy results of 84.44\% and 91\%. The result
+    obtained with the Challenge data set, that is, a completely new data set assessed
+    only during submission time, was 54\% and 64\%. Some conclusions are offered
+    in our report trying to figure out the reasons for the inferior models
+    performances in the submission data set opening space for different approaches
+    in future works.
 \end{abstract}
 
 % ==============================================================================

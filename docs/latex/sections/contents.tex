@@ -200,12 +200,13 @@ However, during training time only training data is available. In this sense, th
 statistical method \textit{Cross validation} can be applied to estimate training
 and testing error even though only training data is available. This way, it is
 possible to estimate if the model is overfitting or underfitting using only the
-training data set.
+training data set \cite{lecturenotes}.
 
 Despite being simple, Cross validation is still a powerful method that can be
 applied to estimate the testing error. The simplicity is in the process. The
 Training data set is artificially split into two subsets. One partition is then
-used as the training data while the other one is used as the testing data.
+used as the training data while the other one is used as the testing data 
+\cite{lecturenotes}.
 
 Apart from this simplest data partition strategy, one may also split the data set
 into \textit{K} partitions, more commonly called \textit{folds}. The process follows
@@ -214,10 +215,10 @@ by holding one the of \textit{folds} as the testing data set while the remaining
 repeated \textit{K} times given that each partition is utlized as the testing data
 set exactly once. The model is then assessed by takingn the average of the results
 obtained during the \textit{K} repetitions. The optimal model will perform well
-in the testing and training data, avoinding this way overfitting and underfitting,
+in the testing and training data, avoiding this way overfitting and underfitting,
 respectively. In more educated terms, it will present low variance when the
 different \textit{K} training data sets are introduced by the cross validation, and
-low bias if it fits the training data set efficiently.
+low bias if it fits the training data set efficiently \cite{lecturenotes}.
 
 
 \subsection{Curse of Dimensionality}
@@ -229,13 +230,13 @@ distributed in the \textit{m}-dimensional coordinate system called defined by th
 vector space spanned by the linear combination of the \textit{input vectors}.
 In other words, the data points will present large distances from each other.
 Consenquently, the modeling procedure $\mathcal{P}$ will have difficulties in
-finding similarities between the data points.
+finding similarities between the data points \cite{lecturenotes}.
 
 A solution for this curse is to reduce the dimensionality of the by applying feature
 extraction functions such as Principal Component Analysis and \textit{K-means} \cite{lecturenotes}. The idea in this
 stage is to reduce the data points dimension without highly comprimisiing in loss of
 information. A rule of thumb practically applied is to respect a ratio of 10 features
-per data point.
+per data point \cite{lecturenotes}.
 
 \section{Data Preprocessing}
 
